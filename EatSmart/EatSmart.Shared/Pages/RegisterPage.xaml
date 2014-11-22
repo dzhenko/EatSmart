@@ -29,7 +29,24 @@
 
         <!--TODO: Content should be placed within the following grid-->
         <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
+            <!--<Button Content="?" Width="60" Height="60" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="20"
+                    x:Name="helpLogin"/>-->
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock Text="Username"  Style="{StaticResource TextBlockAccountStyle}" />
+                <TextBox Text="{Binding Username, Mode=TwoWay}" Style="{StaticResource TextBoxAccountStyle}" />
 
+                <TextBlock Text="Password"  Style="{StaticResource TextBlockAccountStyle}" />
+                <PasswordBox Password="{Binding Password, Mode=TwoWay}" Style="{StaticResource PasswordBoxAccountStyle}" />
+
+                <TextBlock Text="Confirm Password"  Style="{StaticResource TextBlockAccountStyle}" />
+                <PasswordBox Password="{Binding ConfirmPassword, Mode=TwoWay}" Style="{StaticResource PasswordBoxAccountStyle}" />
+
+                <Grid Width="280">
+                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                        <Button Margin="-3,5" Content="Register" Click="OnRegisterButtonClick" />
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
         </Grid>
     </Grid>
 </Page>

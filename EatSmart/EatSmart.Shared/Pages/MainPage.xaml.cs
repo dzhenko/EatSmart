@@ -107,5 +107,10 @@ namespace EatSmart.Pages
         }
 
         #endregion
+
+        private void OnProfileButtonClicked(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(ProfilePage), null);
+        }
     }
 }

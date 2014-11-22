@@ -1,4 +1,5 @@
 ﻿using EatSmart.Common;
+using EatSmart.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,6 +8,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Graphics.Display;
+using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -29,12 +31,19 @@ namespace EatSmart.Pages
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
 
         public RegisterPage()
+            : this(new RegisterPageViewModel())
+        {
+        }
+
+        public RegisterPage(RegisterPageViewModel viewModel)
         {
             this.InitializeComponent();
 
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
+
+            this.RegisterPageViewModel = viewModel;
         }
 
         /// <summary>
@@ -107,5 +116,40 @@ namespace EatSmart.Pages
         }
 
         #endregion
+
+        private async void OnRegisterButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (this.RegisterPageViewModel == null)
+            {
+                throw new ArgumentNullException("Model is not set");
+            }
+            else if (this.RegisterPageViewModel.Password != this.RegisterPageViewModel.ConfirmPassword)
+            {
+                await (new MessageDialog("Both passwords must match").ShowAsync());
+                return;
+            }
+
+            var isRegistered = await this.RegisterPageViewModel.Register();
+            if (isRegistered)
+            {
+                this.Frame.Navigate(typeof(MainPage));
+            }
+            else
+	        {
+                await (new MessageDialog("Registration Failed").ShowAsync());
+	        }
+        }
+
+        public RegisterPageViewModel RegisterPageViewModel
+        {
+            get
+            {
+                return this.DataContext as RegisterPageViewModel;
+            }
+            set
+            {
+                this.DataContext = value;
+            }
+        }
     }
 }

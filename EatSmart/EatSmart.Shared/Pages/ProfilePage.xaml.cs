@@ -1,5 +1,6 @@
 ﻿using EatSmart.Common;
 using EatSmart.ViewModels;
+using Parse;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +9,6 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Graphics.Display;
-using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -25,25 +25,18 @@ namespace EatSmart.Pages
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class LoginPage : Page
+    public sealed partial class ProfilePage : Page
     {
         private NavigationHelper navigationHelper;
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
 
-        public LoginPage()
-            : this(new LoginPageViewModel())
-        {
-        }
-
-        public LoginPage(LoginPageViewModel viewModel)
+        public ProfilePage()
         {
             this.InitializeComponent();
 
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
-
-            this.LoginPageViewModel = viewModel;
         }
 
         /// <summary>
@@ -117,39 +110,10 @@ namespace EatSmart.Pages
 
         #endregion
 
-        private async void OnLoginButtonClick(object sender, RoutedEventArgs e)
+        private void OnLogOutButtonClick(object sender, RoutedEventArgs e)
         {
-            if (this.LoginPageViewModel == null)
-            {
-                throw new ArgumentNullException("Model is not set");
-            }
-
-            var isLoggedIn = await this.LoginPageViewModel.Login();
-            if (isLoggedIn)
-            {
-                this.Frame.Navigate(typeof(MainPage));
-            }
-            else
-            {
-                await (new MessageDialog("Invalid username/password").ShowAsync());
-            }
-        }
-
-        private void OnRegisterButtonClick(object sender, RoutedEventArgs e)
-        {
-            this.Frame.Navigate(typeof(RegisterPage));
-        }
-
-        public LoginPageViewModel LoginPageViewModel
-        {
-            get
-            {
-                return this.DataContext as LoginPageViewModel;
-            }
-            set
-            {
-                this.DataContext = value;
-            }
+            ParseUser.LogOut();
+            this.Frame.Navigate(typeof(LoginPage));
         }
     }
 }
