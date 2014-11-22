@@ -18,6 +18,7 @@ using Windows.UI.Xaml.Navigation;
 using Parse;
 using EatSmart.Pages;
 using EatSmart.ViewModels;
+using EatSmart.Logic;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
 
@@ -41,11 +42,14 @@ namespace EatSmart
             this.InitializeComponent();
             this.Suspending += this.OnSuspending;
 
-            ParseClient.Initialize("jEgHOJq0IJmT19ZvHzoscwIWx1whyu9l9PZLunrO", "F0czoYvEHzayV2MI0wkNTxirYsrOpgThLEccn98N"); 
+            this.InitializeParse();
 
-            var testObject = new ParseObject("TestObject");
-            testObject["foo"] = "bar";
-            testObject.SaveAsync();
+            (new ProfileGenerator()).GetProfile();
+        }
+
+        private void InitializeParse()
+        {
+            ParseClient.Initialize("jEgHOJq0IJmT19ZvHzoscwIWx1whyu9l9PZLunrO", "F0czoYvEHzayV2MI0wkNTxirYsrOpgThLEccn98N");
         }
 
         /// <summary>
