@@ -1,4 +1,5 @@
 ﻿using EatSmart.Common;
+using EatSmart.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,7 +16,6 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Parse;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -24,18 +24,25 @@ namespace EatSmart.Pages
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class BestFoodsPage : Page
     {
         private NavigationHelper navigationHelper;
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
 
-        public MainPage()
+        public BestFoodsPage()
+            : this(new BestFoodsPageViewModel())
+        {
+        }
+
+        public BestFoodsPage(BestFoodsPageViewModel viewModel)
         {
             this.InitializeComponent();
 
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
+
+            this.BestFoodsPageViewModel = viewModel;
         }
 
         /// <summary>
@@ -109,21 +116,16 @@ namespace EatSmart.Pages
 
         #endregion
 
-        private void OnProfileButtonClicked(object sender, RoutedEventArgs e)
+        public BestFoodsPageViewModel BestFoodsPageViewModel
         {
-            if (ParseUser.CurrentUser == null)
+            get
             {
-                this.Frame.Navigate(typeof(LoginPage));
+                return this.DataContext as BestFoodsPageViewModel;
             }
-            else
+            set
             {
-                this.Frame.Navigate(typeof(ProfilePage));
+                this.DataContext = value;
             }
-        }
-
-        private void OnBestFoodsButtonClicked(object sender, RoutedEventArgs e)
-        {
-            this.Frame.Navigate(typeof(BestFoodsPage));
         }
     }
 }

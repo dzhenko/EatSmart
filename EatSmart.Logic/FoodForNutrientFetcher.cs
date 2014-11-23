@@ -8,33 +8,25 @@
 
     public class FoodForNutrientFetcher
     {
-        public FoodForNutrientFetcher()
-        {
-            this.PopulateDictionary();
-        }
-
         public IEnumerable<string> GetBestFood(string nutrient)
         {
-            if (this.foodsInfoHolder.ContainsKey(nutrient))
+            if (this.foodsInfoHolder.Value.ContainsKey(nutrient))
             {
-                return this.foodsInfoHolder[nutrient];
+                return this.foodsInfoHolder.Value[nutrient];
             }
 
             return new List<string>() { "Nutrient not found" };
         }
 
-        private readonly Dictionary<string, IEnumerable<string>> foodsInfoHolder =
-            new Dictionary<string, IEnumerable<string>>();
+        private readonly Lazy<Dictionary<string, IEnumerable<string>>> foodsInfoHolder =
+            new Lazy<Dictionary<string, IEnumerable<string>>>(PopulateDictionary);
 
 
-        private void PopulateDictionary()
+        private static Dictionary<string, IEnumerable<string>> PopulateDictionary()
         {
-            if (this.foodsInfoHolder.Keys.Count > 0)
-            {
-                return;
-            }
+            var dictToReturn = new Dictionary<string, IEnumerable<string>>();
 
-            foodsInfoHolder.Add("Total Carbohydrate", new List<string>() 
+            dictToReturn.Add("Total Carbohydrate", new List<string>() 
             {
                 "Taco Bell condiment: Border Sauce, fire (2500g)",
 "Taco Bell condiment: Picante Sauce (2222g)",
@@ -58,7 +50,7 @@
 "Orange-flavor drink, breakfast type, low calorie, powder (79g)"
             });
 
-            foodsInfoHolder.Add("Dietary Fiber", new List<string>() 
+            dictToReturn.Add("Dietary Fiber", new List<string>() 
             {
                 "Corn bran, crude (71g)",
 "Cereals ready-to-eat, KELLOGG, KELLOGG'S ALL-BRAN WITH EXTRA FIBER (52g)",
@@ -82,7 +74,7 @@
 "Cereals ready-to-eat, KELLOGG, KELLOGG'S ALL-BRAN BRAN BUDS (34g)"
             });
 
-            foodsInfoHolder.Add("Linoleic Acid", new List<string>() 
+            dictToReturn.Add("Linoleic Acid", new List<string>() 
             {
                 "Coffee, brewed, espresso, restaurant-prepared, decaffeinated (18399mg)",
 "Oil, vegetable safflower, salad or cooking, linoleic, (over 70%) (2 undifferentiated: 16880mg)",
@@ -106,7 +98,7 @@
 "Oil, vegetable, tomatoseed (2 undifferentiated: 11492mg)"
             });
 
-            foodsInfoHolder.Add("Alpha-Linolenic Acid", new List<string>() 
+            dictToReturn.Add("Alpha-Linolenic Acid", new List<string>() 
             {
                 "Oil, vegetable, canola [low erucic acid rapeseed oil] (2067mg)",
 "Margarine, 80% fat, tub, CANOLA HARVEST Soft Spread (canola, palm and palm kernel oils) (1692mg)",
@@ -130,7 +122,7 @@
 "Margarine, vegetable oil spread, stick/tub/bottle, 60% fat (1006mg)"
             });
 
-            foodsInfoHolder.Add("Protein", new List<string>() 
+            dictToReturn.Add("Protein", new List<string>() 
             {
                 "Arby's beverage: Coffee (80g)",
 "Carl's Jr. beverage: Coffee (59g)",
@@ -154,7 +146,7 @@
 "Emu, outside drum, raw (45g)"
             });
 
-            foodsInfoHolder.Add("Vitamin A", new List<string>() 
+            dictToReturn.Add("Vitamin A", new List<string>() 
             {
                 "Taco Bell condiment: Border Sauce, mild (1000043IU)",
 "Taco Bell condiment: Border Sauce, fire (749925IU)",
@@ -178,7 +170,7 @@
 "Carrots, cooked, boiled, drained, with salt (97338IU)"
             });
 
-            foodsInfoHolder.Add("Vitamin C", new List<string>() 
+            dictToReturn.Add("Vitamin C", new List<string>() 
             {
                 "Acerola juice, raw (13913mg)",
 "Acerola, (west indian cherry), raw (10483mg)",
@@ -202,7 +194,7 @@
 "McDONALD'S, Apple Dippers (1154mg)"
             });
 
-            foodsInfoHolder.Add("Vitamin D", new List<string>() 
+            dictToReturn.Add("Vitamin D", new List<string>() 
             {
                 "Fish oil, cod liver (2217IU)",
 "Fish, herring, Atlantic, raw (2061IU)",
@@ -226,7 +218,7 @@
 "Infant formula, ABBOT NUTRITION, SIMILAC, SPECIAL CARE, ADVANCE 24, with iron, ready-to-feed, with ARA and DHA, (formerly ROSS) (303IU)"
             });
 
-            foodsInfoHolder.Add("Vitamin E", new List<string>() 
+            dictToReturn.Add("Vitamin E", new List<string>() 
             {
                 "QUAKER OATS, PROPEL Fitness Water, fruit-flavored, non-carbonated [sport drink, thirst quencher] (67mg)",
 "Formulated Bar, MASTERFOODS USA, SNICKERS MARATHON Protein Performance Bar, Caramel Nut Rush (62mg)",
@@ -250,7 +242,7 @@
 "Chrysanthemum, garland, cooked, boiled, drained, without salt (25mg)"
             });
 
-            foodsInfoHolder.Add("Vitamin K", new List<string>() 
+            dictToReturn.Add("Vitamin K", new List<string>() 
             {
                 "Amaranth leaves, raw (9914mcg)",
 "Parsley, raw (9113mcg)",
@@ -274,7 +266,7 @@
 "Beet greens, cooked, boiled, drained, without salt (3585mcg)"
             });
 
-            foodsInfoHolder.Add("Thiamin", new List<string>() 
+            dictToReturn.Add("Thiamin", new List<string>() 
             {
                 "WORTHINGTON Prosage Links, frozen, unprepared (23mg)",
 "WORTHINGTON Meatless Corned Beef, frozen, unprepared (17mg)",
@@ -298,7 +290,7 @@
 "Cereals ready-to-eat, KELLOGG, KELLOGG'S Complete Oat Bran Flakes (3mg)"
             });
 
-            foodsInfoHolder.Add("Riboflavin", new List<string>() 
+            dictToReturn.Add("Riboflavin", new List<string>() 
             {
                 "Coffee, brewed, espresso, restaurant-prepared, decaffeinated (35mg)",
 "Energy drink, RED BULL, sugar free, with added caffeine, niacin, pantothenic acid, vitamins B6 and B12 (23mg)",
@@ -322,7 +314,7 @@
 "Fireweed, young leaves, raw (Alaska Native) (4mg)"
             });
 
-            foodsInfoHolder.Add("Niacin", new List<string>() 
+            dictToReturn.Add("Niacin", new List<string>() 
             {
                 "Coffee, brewed, espresso, restaurant-prepared, decaffeinated (1041mg)",
 "Coffee, brewed, espresso, restaurant-prepared (521mg)",
@@ -346,7 +338,7 @@
 "Mushrooms, portabella, raw [Portabello] (35mg)"
             });
 
-            foodsInfoHolder.Add("Vitamin B6", new List<string>() 
+            dictToReturn.Add("Vitamin B6", new List<string>() 
             {
                 "Energy drink, RED BULL, sugar free, with added caffeine, niacin, pantothenic acid, vitamins B6 and B12 (33mg)",
 "QUAKER OATS, PROPEL Fitness Water, fruit-flavored, non-carbonated [sport drink, thirst quencher] (22mg)",
@@ -370,7 +362,7 @@
 "New zealand spinach, cooked, boiled, drained, with salt (4mg)"
             });
 
-            foodsInfoHolder.Add("Folate", new List<string>() 
+            dictToReturn.Add("Folate", new List<string>() 
             {
                 "Spinach, raw (1687mcg)",
 "Endive, raw (1670mcg)",
@@ -394,7 +386,7 @@
 "Spinach, cooked, boiled, drained, without salt (1270mcg)"
             });
 
-            foodsInfoHolder.Add("Vitamin B12", new List<string>() 
+            dictToReturn.Add("Vitamin B12", new List<string>() 
             {
                 "Mollusks, clam, mixed species, canned, liquid (500mcg)",
 "Mollusks, clam, mixed species, canned, drained solids (134mcg)",
@@ -418,7 +410,7 @@
 "Energy drink, RED BULL, sugar free, with added caffeine, niacin, pantothenic acid, vitamins B6 and B12 (70mcg)"
             });
 
-            foodsInfoHolder.Add("Pantothenic Acid", new List<string>() 
+            dictToReturn.Add("Pantothenic Acid", new List<string>() 
             {
                 "QUAKER OATS, PROPEL Fitness Water, fruit-flavored, non-carbonated [sport drink, thirst quencher] (63mg)",
 "Energy drink, RED BULL, sugar free, with added caffeine, niacin, pantothenic acid, vitamins B6 and B12 (56mg)",
@@ -442,7 +434,7 @@
 "Grape leaves, canned (12mg)"
             });
 
-            foodsInfoHolder.Add("Calcium", new List<string>() 
+            dictToReturn.Add("Calcium", new List<string>() 
             {
                 "Leavening agents, baking powder, double-acting, straight phosphate (28874mg)",
 "Leavening agents, baking powder, double-acting, sodium aluminum sulfate (22174mg)",
@@ -466,7 +458,7 @@
 "Amaranth leaves, raw (1870mg)"
             });
 
-            foodsInfoHolder.Add("Copper", new List<string>() 
+            dictToReturn.Add("Copper", new List<string>() 
             {
                 "Mollusks, clam, mixed species, canned, liquid (39mg)",
 "Veal, variety meats and by-products, liver, raw [calf liver] (17mg)",
@@ -490,7 +482,7 @@
 "Soup, oyster stew, canned, condensed (5mg)"
             });
 
-            foodsInfoHolder.Add("Iron", new List<string>() 
+            dictToReturn.Add("Iron", new List<string>() 
             {
                 "Spices, thyme, dried (90mg)",
 "Beef, variety meats and by-products, spleen, raw (85mg)",
@@ -514,7 +506,7 @@
 "Cereals ready-to-eat, Ralston Enriched Bran flakes [Includes USDA Commodity B877] (44mg)"
             });
 
-            foodsInfoHolder.Add("Magnesium", new List<string>() 
+            dictToReturn.Add("Magnesium", new List<string>() 
             {
                 "Coffee, brewed, espresso, restaurant-prepared, decaffeinated (15999mg)",
 "Coffee, brewed, espresso, restaurant-prepared (8000mg)",
@@ -538,7 +530,7 @@
 "Spinach, raw (687mg)"
             });
 
-            foodsInfoHolder.Add("Manganese", new List<string>() 
+            dictToReturn.Add("Manganese", new List<string>() 
             {
                 "Tea, instant, unsweetened, powder (84mg)",
 "Tea, instant, unsweetened, powder, decaffeinated (84mg)",
@@ -562,7 +554,7 @@
 "Spices, cinnamon, ground [Cassia] (14mg)"
             });
 
-            foodsInfoHolder.Add("Phosphorus", new List<string>() 
+            dictToReturn.Add("Phosphorus", new List<string>() 
             {
                 "Leavening agents, baking powder, double-acting, straight phosphate (38890mg)",
 "Leavening agents, baking powder, low-sodium (14160mg)",
@@ -586,7 +578,7 @@
 "Mushrooms, portabella, raw [Portabello] (1000mg)"
             });
 
-            foodsInfoHolder.Add("Selenium", new List<string>() 
+            dictToReturn.Add("Selenium", new List<string>() 
             {
                 "Sea lion, stellar, liver (Alaska Native) (1012mcg)",
 "Sea lion, stellar, kidney (Alaska Native) (589mcg)",
@@ -610,7 +602,7 @@
 "Mollusks, oyster, eastern, wild, raw (187mcg)"
             });
 
-            foodsInfoHolder.Add("Zinc", new List<string>() 
+            dictToReturn.Add("Zinc", new List<string>() 
             {
                 "Mollusks, oyster, eastern, wild, raw (267mg)",
 "Mollusks, oyster, eastern, wild, cooked, moist heat (265mg)",
@@ -633,6 +625,8 @@
 "Cereals ready-to-eat, GENERAL MILLS, TOTAL Corn Flakes (27mg)",
 "Babyfood, cereal, oatmeal, with applesauce and bananas, junior (20mg)"
             });
+
+            return dictToReturn;
         }
     }
 }

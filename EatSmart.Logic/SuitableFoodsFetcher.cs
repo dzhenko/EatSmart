@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    public class SuitableFoods
+    public class SuitableFoodsFetcher
     {
         public IEnumerable<string> HighCalories()
         {

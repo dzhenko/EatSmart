@@ -43,8 +43,6 @@ namespace EatSmart
             this.Suspending += this.OnSuspending;
 
             this.InitializeParse();
-
-            (new ProfileGenerator()).GetProfile();
         }
 
         private void InitializeParse()
@@ -109,7 +107,7 @@ namespace EatSmart
                 // configuring the new page by passing required information as a navigation
                 // parameter
 
-                var pageToNavigateTo = typeof(MainPage);
+                var pageToNavigateTo = typeof(BestFoodsPage);
                 if (ParseUser.CurrentUser == null)
                 {
                     pageToNavigateTo = typeof(LoginPage);

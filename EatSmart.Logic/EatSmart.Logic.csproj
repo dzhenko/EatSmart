@@ -43,10 +43,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FoodForNutrientFetcher.cs" />
+    <Compile Include="FoodInfoFetcher.cs" />
+    <Compile Include="Models\FoodInfo.cs" />
     <Compile Include="Models\ProfileOverviewModel.cs" />
     <Compile Include="Models\NutrientModel.cs" />
     <Compile Include="ProfileGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SuitableFoodsFetcher.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Net.Http.Extensions">
