@@ -109,7 +109,7 @@ namespace EatSmart.Pages
 
         #endregion
 
-        private void OnProfileButtonClicked(object sender, RoutedEventArgs e)
+        private void OnNavigationProfileButtonClicked(object sender, RoutedEventArgs e)
         {
             if (ParseUser.CurrentUser == null)
             {
@@ -121,7 +121,7 @@ namespace EatSmart.Pages
             }
         }
 
-        private void OnBestFoodsButtonClicked(object sender, RoutedEventArgs e)
+        private void OnNavigationBestFoodsButtonClicked(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(BestFoodsPage));
         }

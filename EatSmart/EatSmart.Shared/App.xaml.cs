@@ -19,6 +19,10 @@ using Parse;
 using EatSmart.Pages;
 using EatSmart.ViewModels;
 using EatSmart.Logic;
+using EatSmart.Models;
+using EatSmart.ViewModels.Basic;
+using SQLite;
+using System.Threading.Tasks;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
 
@@ -39,15 +43,70 @@ namespace EatSmart
         /// </summary>
         public App()
         {
+            this.InitializeParse();
+            var dbNeedsInitializing = this.PopulateBase().Result;
+            // animation
+
             this.InitializeComponent();
             this.Suspending += this.OnSuspending;
-
-            this.InitializeParse();
         }
+
+        public static Lazy<SQLiteAsyncConnection> Database 
+            = new Lazy<SQLiteAsyncConnection>(() => new SQLiteAsyncConnection("EatFreshDatabase"));
 
         private void InitializeParse()
         {
             ParseClient.Initialize("jEgHOJq0IJmT19ZvHzoscwIWx1whyu9l9PZLunrO", "F0czoYvEHzayV2MI0wkNTxirYsrOpgThLEccn98N");
+
+            ParseObject.RegisterSubclass<FoodCategory>();
+            ParseObject.RegisterSubclass<FoodCategoryItem>();
+            ParseObject.RegisterSubclass<SuitableFoodCategory>();
+            ParseObject.RegisterSubclass<SuitableFoodCategoryItem>();
+        }
+
+        private async Task<bool> PopulateBase()
+        {
+            var conn = Database.Value;
+
+            await conn.CreateTablesAsync<FoodCategoryViewModel,
+                                        FoodCategoryItemViewModel,
+                                        SuitableFoodCategoryViewModel,
+                                        SuitableFoodCategoryItemViewModel>();
+
+            if (conn.Table<FoodCategoryItemViewModel>().CountAsync().Result > 0)
+            {
+                return false;
+            }
+
+            var foodCategories = new ParseQuery<FoodCategory>().Limit(1000)
+                .FindAsync().Result.AsQueryable().Select(FoodCategoryViewModel.FromData).ToList();
+
+            var foodCategoryItems1 = new ParseQuery<FoodCategoryItem>().Limit(500).Skip(0)
+                .FindAsync().Result.AsQueryable().Select(FoodCategoryItemViewModel.FromData).ToList();
+
+            var foodCategoryItems2 = new ParseQuery<FoodCategoryItem>().Limit(1000).Skip(500)
+                .FindAsync().Result.AsQueryable().Select(FoodCategoryItemViewModel.FromData).ToList();
+
+            var suitableFoodCategories = new ParseQuery<SuitableFoodCategory>().Limit(1000)
+                .FindAsync().Result.AsQueryable().Select(SuitableFoodCategoryViewModel.FromData).ToList();
+
+            var suitableFoodCategoryItems1 = new ParseQuery<SuitableFoodCategoryItem>().Limit(500).Skip(0)
+                .FindAsync().Result.AsQueryable().Select(SuitableFoodCategoryItemViewModel.FromData).ToList();
+
+            var suitableFoodCategoryItems2 = new ParseQuery<SuitableFoodCategoryItem>().Limit(1000).Skip(500)
+                .FindAsync().Result.AsQueryable().Select(SuitableFoodCategoryItemViewModel.FromData).ToList();
+
+            await conn.InsertAllAsync(foodCategories);
+
+            await conn.InsertAllAsync(foodCategoryItems1);
+            await conn.InsertAllAsync(foodCategoryItems2);
+
+            await conn.InsertAllAsync(suitableFoodCategories);
+
+            await conn.InsertAllAsync(suitableFoodCategoryItems1);
+            await conn.InsertAllAsync(suitableFoodCategoryItems2);
+
+            return true;
         }
 
         /// <summary>
@@ -107,7 +166,7 @@ namespace EatSmart
                 // configuring the new page by passing required information as a navigation
                 // parameter
 
-                var pageToNavigateTo = typeof(BestFoodsPage);
+                var pageToNavigateTo = typeof(MainPage);
                 if (ParseUser.CurrentUser == null)
                 {
                     pageToNavigateTo = typeof(LoginPage);

@@ -8,6 +8,7 @@
 
     using EatSmart.Logic.Models;
 
+    // not needed
     public class FoodInfoFetcher
     {
         private Lazy<Dictionary<string, FoodInfo>> foodInfo = new Lazy<Dictionary<string, FoodInfo>>(InitializeInfo);

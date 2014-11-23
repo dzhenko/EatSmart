@@ -5,8 +5,8 @@
 
     using GalaSoft.MvvmLight;
 
-    using EatSmart.Logic;
     using System.Collections.ObjectModel;
+    using EatSmart.Services;
 
     public class BestFoodsPageViewModel : ViewModelBase
     {
@@ -64,7 +64,7 @@
 
         private static Dictionary<string, Func<IEnumerable<string>>> PopulateDict()
         {
-            var fetcher = new SuitableFoodsFetcher();
+            var fetcher = new FoodsForTargetFetcherService();
             var dict = new Dictionary<string, Func<IEnumerable<string>>>();
 
             dict.Add("HighCalories", fetcher.HighCalories);

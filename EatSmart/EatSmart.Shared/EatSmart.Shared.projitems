@@ -15,12 +15,23 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Common\Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\NavigationHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\ObservableDictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\RelayCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\SuspensionManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\AllFoodItemToStringConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\SQLite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\SQLiteAsync.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\FoodCategory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\FoodCategoryItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\NutrientModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ProfileOverviewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\SuitableFoodCategory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\SuitableFoodCategoryItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\AllFoodCategoriesPage.xaml.cs">
+      <DependentUpon>AllFoodCategoriesPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Pages\BestFoodsPage.xaml.cs">
       <DependentUpon>BestFoodsPage.xaml</DependentUpon>
     </Compile>
@@ -36,15 +47,38 @@
     <Compile Include="$(MSBuildThisFileDirectory)Pages\RegisterPage.xaml.cs">
       <DependentUpon>RegisterPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\RichInContentFoodsPage.xaml.cs">
+      <DependentUpon>RichInContentFoodsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\SingleFoodCategoryPage.xaml.cs">
+      <DependentUpon>SingleFoodCategoryPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\AllFoodsFetcherService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\FoodsForTargetFetcherService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ProfileGeneratorService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\SuitableFoodsFetcherService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AllFoodCategoriesPageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Basic\FoodCategoryItemViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Basic\FoodCategoryViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Basic\SuitableFoodCategoryItemViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Basic\SuitableFoodCategoryViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Basic\UserViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BestFoodsPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LoginPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\RegisterPageViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\UserViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SingleFoodCategoryPageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\AppBarNavigationView.xaml.cs">
+      <DependentUpon>AppBarNavigationView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\HeaderView.xaml.cs">
       <DependentUpon>HeaderView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Pages\AllFoodCategoriesPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Pages\BestFoodsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -62,6 +96,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Pages\RegisterPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Pages\RichInContentFoodsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Pages\SingleFoodCategoryPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\AppBarNavigationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

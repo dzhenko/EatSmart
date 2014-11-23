@@ -28,15 +28,13 @@
 
         <!--TODO: Content should be placed within the following grid-->
         <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
-            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Image Source="http://news.bbcimg.co.uk/media/images/71832000/jpg/_71832498_71825880.jpg" />
+
+            <views:AppBarNavigationView Grid.Row="1"/>
         </Grid>
-        
-        <StackPanel Orientation="Horizontal"
-                    Grid.Row="2"
-                    HorizontalAlignment="Center">
-            <AppBarButton Label="Profile" Icon="OtherUser" Click="OnProfileButtonClicked"/>
-            <AppBarButton Label="Tips" Icon="Accept" />
-            <AppBarButton Label="Best" Icon="Favorite" Click="OnBestFoodsButtonClicked"/>
-        </StackPanel>
     </Grid>
 </Page>

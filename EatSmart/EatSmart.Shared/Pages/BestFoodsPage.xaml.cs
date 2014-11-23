@@ -1,5 +1,6 @@
 ﻿using EatSmart.Common;
 using EatSmart.ViewModels;
+using Parse;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -43,6 +44,18 @@ namespace EatSmart.Pages
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
 
             this.BestFoodsPageViewModel = viewModel;
+        }
+
+        public BestFoodsPageViewModel BestFoodsPageViewModel
+        {
+            get
+            {
+                return this.DataContext as BestFoodsPageViewModel;
+            }
+            set
+            {
+                this.DataContext = value;
+            }
         }
 
         /// <summary>
@@ -115,17 +128,5 @@ namespace EatSmart.Pages
         }
 
         #endregion
-
-        public BestFoodsPageViewModel BestFoodsPageViewModel
-        {
-            get
-            {
-                return this.DataContext as BestFoodsPageViewModel;
-            }
-            set
-            {
-                this.DataContext = value;
-            }
-        }
     }
 }

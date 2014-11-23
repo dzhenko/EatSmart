@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using Parse;
 using System.Threading.Tasks;
+using EatSmart.ViewModels.Basic;
 
 namespace EatSmart.ViewModels
 {
