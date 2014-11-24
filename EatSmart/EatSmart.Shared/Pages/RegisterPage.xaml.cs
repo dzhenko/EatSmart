@@ -132,7 +132,7 @@ namespace EatSmart.Pages
             var isRegistered = await this.RegisterPageViewModel.Register();
             if (isRegistered)
             {
-                this.Frame.Navigate(typeof(MainPage));
+                this.Frame.Navigate(typeof(ProfilePage));
             }
             else
 	        {

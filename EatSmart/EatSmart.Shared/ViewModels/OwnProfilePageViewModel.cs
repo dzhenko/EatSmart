@@ -1,14 +1,20 @@
-﻿using GalaSoft.MvvmLight;
+﻿using EatSmart.Models;
+using EatSmart.Services;
+using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using EatSmart.Models;
 
 namespace EatSmart.ViewModels
 {
-    public class ProfilePageViewModel : ViewModelBase
+    public class OwnProfilePageViewModel : ViewModelBase
     {
         private ProfileOverviewModel profileOverviewModel;
+
+        public OwnProfilePageViewModel()
+        {
+            this.ProfileOverviewModel = new ProfileGeneratorService().GetProfile(new UserSessionPersister().GetCurrentUsername().Result).Result;
+        }
 
         public ProfileOverviewModel ProfileOverviewModel
         {

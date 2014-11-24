@@ -10,6 +10,11 @@
     d:DesignWidth="400">
 
     <StackPanel>
+        <StackPanel.Transitions>
+            <TransitionCollection>
+                <EntranceThemeTransition FromHorizontalOffset="800" />
+            </TransitionCollection>
+        </StackPanel.Transitions>
         <TextBlock Text="{StaticResource ApplicationName}" Style="{ThemeResource TitleTextBlockStyle}" FontSize="46" TextAlignment="Center" Margin="0,12,0,0"/>
         <TextBlock Text="{Binding TitleText}" Margin="0,-6.5,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}" />
     </StackPanel>

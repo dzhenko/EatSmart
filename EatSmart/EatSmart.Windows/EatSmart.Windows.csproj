@@ -152,12 +152,6 @@
       <Name>SQLite for Windows Runtime %28Windows 8.1%29</Name>
     </SDKReference>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\EatSmart.Logic\EatSmart.Logic.csproj">
-      <Project>{d8cb64bb-5550-4b7e-bc22-cb62fd40285f}</Project>
-      <Name>EatSmart.Logic</Name>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>
   </PropertyGroup>

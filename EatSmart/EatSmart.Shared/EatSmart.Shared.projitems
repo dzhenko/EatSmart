@@ -25,6 +25,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Data\SQLiteAsync.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\FoodCategory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\FoodCategoryItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\LockSwipeType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\NutrientModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ProfileOverviewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SuitableFoodCategory.cs" />
@@ -53,6 +54,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Pages\OwnProfilePage.xaml.cs">
       <DependentUpon>OwnProfilePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\PasswordSwipePage.xaml.cs">
+      <DependentUpon>PasswordSwipePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Pages\ProfilePage.xaml.cs">
       <DependentUpon>ProfilePage.xaml</DependentUpon>
     </Compile>
@@ -69,15 +73,17 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\FoodsForTargetFetcherService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ProfileGeneratorService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\SuitableFoodsFetcherService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\UserSessionPersister.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AllFoodCategoriesPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Basic\FoodCategoryItemViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Basic\FoodCategoryViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Basic\SuitableFoodCategoryItemViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Basic\SuitableFoodCategoryViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Basic\UserSessionHolderViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Basic\UserViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BestFoodsPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LoginPageViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ProfilePageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\OwnProfilePageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\RegisterPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\RichInContentFoodsPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SingleFoodCategoryPageViewModel.cs" />
@@ -118,6 +124,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Pages\OwnProfilePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Pages\PasswordSwipePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -19,5 +19,7 @@ namespace EatSmart.ViewModels.Basic
         public string Password { get; set; }
 
         public string CodedProfile { get; set; }
+
+        public LockSwipeType LockSwipeType { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight;
+﻿using EatSmart.Services;
+using GalaSoft.MvvmLight;
 using Parse;
 using System;
 using System.Collections.Generic;
@@ -26,8 +27,8 @@ namespace EatSmart.ViewModels
                 };
 
                 await user.SignUpAsync();
-
-                // TODO: login
+                await ParseUser.LogInAsync(this.Username, this.Password);
+                await new UserSessionPersister().LoginUser(this.Username);
 
                 return true;
             }

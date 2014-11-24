@@ -18,13 +18,13 @@ using Windows.UI.Xaml.Navigation;
 using Parse;
 using EatSmart.Pages;
 using EatSmart.ViewModels;
-using EatSmart.Logic;
-using EatSmart.Models;
 using EatSmart.ViewModels.Basic;
 using SQLite;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
 using Windows.Networking.Connectivity;
+using EatSmart.Models;
+using Windows.Storage;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
 
@@ -56,8 +56,8 @@ namespace EatSmart
 
         public static bool DbNeedsInitializing = false;
 
-        public static Lazy<SQLiteAsyncConnection> Database 
-            = new Lazy<SQLiteAsyncConnection>(() => new SQLiteAsyncConnection("EatFreshDatabase"));
+        public static Lazy<SQLiteAsyncConnection> Database
+            = new Lazy<SQLiteAsyncConnection>(() => new SQLiteAsyncConnection("AppEatFreshDb"));
 
         private void InitializeParse()
         {
@@ -78,6 +78,8 @@ namespace EatSmart
                                         SuitableFoodCategoryViewModel,
                                         SuitableFoodCategoryItemViewModel,
                                         UserViewModel>();
+
+            await conn.CreateTableAsync<UserSessionHolderViewModel>();
 
             if (conn.Table<FoodCategoryItemViewModel>().CountAsync().Result > 0)
             {
@@ -118,6 +120,12 @@ namespace EatSmart
             return true;
         }
 
+        public static Lazy<StorageFile> CurrentLoggedUsername = new Lazy<StorageFile>(() => GetStorageFile().Result);
+        private static async Task<StorageFile> GetStorageFile()
+        {
+            return await ApplicationData.Current.LocalFolder
+                .CreateFileAsync("UserDetails", CreationCollisionOption.ReplaceExisting);
+        }
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
         /// will be used when the application is launched to open a specific file, to display
@@ -175,13 +183,7 @@ namespace EatSmart
                 // configuring the new page by passing required information as a navigation
                 // parameter
 
-                var pageToNavigateTo = typeof(NewProfilePage);
-                if (ParseUser.CurrentUser == null)
-                {
-                    pageToNavigateTo = typeof(LoginPage);
-                }
-
-                if (!rootFrame.Navigate(pageToNavigateTo, e.Arguments))
+                if (!rootFrame.Navigate(typeof(MainPage), e.Arguments))
                 {
                     throw new Exception("Failed to create initial page");
                 }

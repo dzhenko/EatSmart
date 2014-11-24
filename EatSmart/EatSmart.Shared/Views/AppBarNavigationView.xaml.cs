@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Parse;
 using EatSmart.Pages;
+using EatSmart.Services;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -43,13 +44,13 @@ namespace EatSmart.Views
 
         private void OnNavigationProfileButtonClicked(object sender, RoutedEventArgs e)
         {
-            if (ParseUser.CurrentUser == null)
+            if (new UserSessionPersister().IsUserLoggedIn().Result)
             {
-                this.InnerNavigateToPage(sender, typeof(LoginPage));
+                this.InnerNavigateToPage(sender, typeof(ProfilePage));
             }
             else
             {
-                this.InnerNavigateToPage(sender, typeof(ProfilePage));
+                this.InnerNavigateToPage(sender, typeof(LoginPage));
             }
         }
 

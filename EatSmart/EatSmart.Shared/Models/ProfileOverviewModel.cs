@@ -16,6 +16,8 @@
 
         public string CaloriesBurnedDescription { get; set; }
 
+        public LockSwipeType LockSwipeType { get; set; }
+
         public IEnumerable<NutrientModel> RecomendedMinimumsGeneral { get; set; }
 
         public IEnumerable<NutrientModel> RecomendedMinimumsVitamins { get; set; }

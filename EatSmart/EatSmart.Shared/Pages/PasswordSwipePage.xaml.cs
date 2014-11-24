@@ -1,5 +1,7 @@
 ﻿using EatSmart.Common;
-using EatSmart.ViewModels;
+using EatSmart.Models;
+using EatSmart.Services;
+using Parse;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +10,6 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Graphics.Display;
-using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -25,17 +26,12 @@ namespace EatSmart.Pages
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class LoginPage : Page
+    public sealed partial class PasswordSwipePage : Page
     {
         private NavigationHelper navigationHelper;
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
 
-        public LoginPage()
-            : this(new LoginPageViewModel())
-        {
-        }
-
-        public LoginPage(LoginPageViewModel viewModel)
+        public PasswordSwipePage()
         {
             this.InitializeComponent();
 
@@ -43,7 +39,8 @@ namespace EatSmart.Pages
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
 
-            this.LoginPageViewModel = viewModel;
+            this.lockType = new ProfileGeneratorService()
+                    .GetLockType(new UserSessionPersister().GetCurrentUsername().Result).Result;
         }
 
         /// <summary>
@@ -117,39 +114,57 @@ namespace EatSmart.Pages
 
         #endregion
 
-        private async void OnLoginButtonClick(object sender, RoutedEventArgs e)
+        private void Canvas_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
         {
-            if (this.LoginPageViewModel == null)
-            {
-                throw new ArgumentNullException("Model is not set");
-            }
+            this.x = e.Cumulative.Translation.X;
+            this.y = e.Cumulative.Translation.Y;
+        }
 
-            var isLoggedIn = await this.LoginPageViewModel.Login();
-            if (isLoggedIn)
+        private void Canvas_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+        {
+            this.x += e.Cumulative.Translation.X;
+            this.y += e.Cumulative.Translation.Y;
+
+            if ((this.lockType == LockSwipeType.SwipeDown && this.y > 0) ||
+                (this.lockType == LockSwipeType.SwipeUp && this.y < 0) ||
+                (this.lockType == LockSwipeType.SwipeDown && this.y > 0) ||
+                (this.lockType == LockSwipeType.SwipeRight && this.x > 0) ||
+                (this.lockType == LockSwipeType.SwipeLeft && this.x < 0) ||
+                (this.lockType == LockSwipeType.RotateClockwise && e.Cumulative.Rotation > 0) ||
+                (this.lockType == LockSwipeType.RotateAntiClockwise && e.Cumulative.Rotation < 0) ||
+                (this.lockType == LockSwipeType.PinchOpen && e.Cumulative.Scale > 0) ||
+                (this.lockType == LockSwipeType.PinchClose && e.Cumulative.Scale < 0))
             {
-                this.Frame.Navigate(typeof(ProfilePage));
-            }
-            else
-            {
-                await (new MessageDialog("Invalid username/password").ShowAsync());
+                this.Frame.Navigate(typeof(OwnProfilePage));
             }
         }
 
-        private void OnRegisterButtonClick(object sender, RoutedEventArgs e)
+        private void Canvas_Holding(object sender, HoldingRoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(RegisterPage));
+            if (this.lockType == LockSwipeType.LongPress)
+            {
+                this.Frame.Navigate(typeof(OwnProfilePage));
+            }
         }
 
-        public LoginPageViewModel LoginPageViewModel
+        private void Canvas_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            get
+            if (this.lockType == LockSwipeType.Touch)
             {
-                return this.DataContext as LoginPageViewModel;
-            }
-            set
-            {
-                this.DataContext = value;
+                this.Frame.Navigate(typeof(OwnProfilePage));
             }
         }
+
+        private void Canvas_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            if (this.lockType == LockSwipeType.DoubleTouch)
+            {
+                this.Frame.Navigate(typeof(OwnProfilePage));
+            }
+        }
+
+        private double x;
+        private double y;
+        private LockSwipeType lockType;
     }
 }

@@ -23,7 +23,7 @@
         </Grid.RowDefinitions>
 
         <!-- Title Panel -->
-        <views:HeaderView Grid.Row="0" Margin="19,0,0,0" TitleText="New Profile"/>
+        <views:HeaderView Grid.Row="0" Margin="19,0,0,0" TitleText="Your Profile"/>
 
         <!--TODO: Content should be placed within the following grid-->
         <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
@@ -56,7 +56,12 @@
                     <RadioButton Name="RadioFemale" GroupName="SexPicker" Content="Female" HorizontalAlignment="Center" Width="98" Height="63"/>
                 </StackPanel>
 
-                <Button Content="Create" Margin="0 0 40 0 " HorizontalAlignment="Center"  Height="67" Width="341" Click="CreateButtonClick" />
+                <StackPanel Orientation="Horizontal"  Margin="0 40 0  0">
+                    <TextBlock FontSize="34" HorizontalAlignment="Center"  TextWrapping="Wrap" Text="Lock Method"  Height="40" Width="251"/>
+                    <ComboBox ItemsSource="{Binding AllOptions}" Name="ProfileLockMethod" />
+                </StackPanel>
+
+                <Button Content="Save" Margin="0 0 40 0 " HorizontalAlignment="Center"  Height="67" Width="341" Click="CreateButtonClick" />
             </StackPanel>
         </Grid>
     </Grid>

@@ -2,12 +2,18 @@
     x:Class="EatSmart.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:converters ="using:EatSmart.Converters"
     xmlns:local="using:EatSmart">
     <Application.Resources>
-        <converters:AllFoodItemToStringConverter x:Key="foodConverter" />
-        
         <x:String x:Key="ApplicationName">Eat Smart</x:String>
+        
+        <Style x:Key="CenteredBigButton" TargetType="Button">
+            <Setter Property="Height" Value="80" />
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="Background" Value="Black" />
+            <Setter Property="Opacity" Value="0.7" />
+            <Setter Property="Margin" Value="0 40 0 0" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+        </Style>
         
         <Style x:Key="TextBlockAccountStyle" TargetType="TextBlock">
             <Setter Property="Width" Value="280" />
@@ -46,7 +52,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="ImageOverlayItemTemplate">
-            <Grid>
+            <Grid Margin="5 10 5 10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="4*"/>
                     <ColumnDefinition Width="4*"/>
@@ -58,8 +64,11 @@
                 
                 <Image Grid.Column="0" 
                        Grid.Row="0" 
+                       Width="100"
+                       Height="100"
+                       Margin="0 0 20 0"
                        Source="{Binding Image}" 
-                       Stretch="UniformToFill"/>
+                       Stretch="Uniform"/>
                 
                 <TextBlock Grid.Column="1" 
                            Grid.Row="0" 

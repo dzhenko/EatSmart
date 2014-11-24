@@ -5,6 +5,7 @@ using System.Text;
 using Parse;
 using System.Threading.Tasks;
 using EatSmart.ViewModels.Basic;
+using EatSmart.Services;
 
 namespace EatSmart.ViewModels
 {
@@ -22,6 +23,7 @@ namespace EatSmart.ViewModels
             try
             {
                 await ParseUser.LogInAsync(this.User.Username, this.User.Password);
+                await new UserSessionPersister().LoginUser(this.User.Username);
                 return true;
             }
             catch (Exception ex)

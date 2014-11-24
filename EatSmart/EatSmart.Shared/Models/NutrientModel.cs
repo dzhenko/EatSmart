@@ -19,5 +19,10 @@
         public double Amount { get; set; }
 
         public string Measurment { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format("{0}: {1} {2}", this.Name, this.Amount, this.Measurment);
+        }
     }
 }

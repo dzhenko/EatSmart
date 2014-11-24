@@ -1,5 +1,6 @@
 ﻿using EatSmart.Common;
 using EatSmart.Models;
+using EatSmart.Services;
 using EatSmart.ViewModels;
 using EatSmart.ViewModels.Basic;
 using Parse;
@@ -34,39 +35,13 @@ namespace EatSmart.Pages
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
 
         public ProfilePage()
-            : this(new ProfilePageViewModel())
-        {
-        }
-
-        public ProfilePage(ProfilePageViewModel viewModel)
         {
             this.InitializeComponent();
 
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
-
-            if (ParseUser.CurrentUser == null)
-            {
-                this.Frame.Navigate(typeof(LoginPage));
-            }
-
-            this.ProfilePageViewModel = viewModel;
         }
-
-        public ProfilePageViewModel ProfilePageViewModel
-        {
-            get
-            {
-                return this.DataContext as ProfilePageViewModel;
-            }
-            set
-            {
-                this.DataContext = value;
-            }
-        }
-
-
 
         /// <summary>
         /// Gets the <see cref="NavigationHelper"/> associated with this <see cref="Page"/>.
@@ -142,7 +117,26 @@ namespace EatSmart.Pages
         private void OnLogOutButtonClick(object sender, RoutedEventArgs e)
         {
             ParseUser.LogOut();
+            var a = new UserSessionPersister().LogoutUser().Result;
             this.Frame.Navigate(typeof(LoginPage));
+        }
+
+        private void OnUpdateProfileButtonClick(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(NewProfilePage));
+        }
+
+        private void OnViewProfileButtonClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var a = new ProfileGeneratorService().GetLockType(new UserSessionPersister().GetCurrentUsername().Result).Result;
+                this.Frame.Navigate(typeof(PasswordSwipePage));
+            }
+            catch (Exception ex)
+            {
+                this.Frame.Navigate(typeof(NewProfilePage));
+            }
         }
     }
 }

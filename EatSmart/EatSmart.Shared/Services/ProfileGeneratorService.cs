@@ -17,7 +17,14 @@ namespace EatSmart.Services
             return App.Database.Value.Table<UserViewModel>().Where(u => u.Username == username).CountAsync().Result == 0;
         }
 
-        public async Task<ProfileOverviewModel> CreateProfile(string username, bool isMale, int age, int weight, int height, int lifestyleIndex = 0)
+        public async Task<LockSwipeType> GetLockType(string username)
+        {
+            var user = App.Database.Value.Table<UserViewModel>().Where(u => u.Username == username).FirstOrDefaultAsync().Result;
+            return user.LockSwipeType;
+        }
+
+        public async Task<ProfileOverviewModel> CreateProfile(string username, LockSwipeType lockSwipeType,
+            bool isMale, int age, int weight, int height, int lifestyleIndex = 0)
         {
             var old = App.Database.Value.Table<UserViewModel>().Where(u => u.Username == username).FirstOrDefaultAsync().Result;
             if (old != null)
@@ -26,26 +33,34 @@ namespace EatSmart.Services
             }
 
             var codedProfile = new EatSmart.Services.ProfileGeneratorService()
-                   .GetProfile(username, isMale, age, weight, height).Result;
+                   .GetProfile(username, lockSwipeType, isMale, age, weight, height).Result;
 
-            var inserted = App.Database.Value.InsertAsync(new UserViewModel() { Username = username, CodedProfile = codedProfile.RawCodedModel }).Result;
+            var inserted = App.Database.Value.InsertAsync(new UserViewModel() 
+            { 
+                Username = username, 
+                CodedProfile = codedProfile.RawCodedModel,
+                LockSwipeType = lockSwipeType
+            }).Result;
 
             return await this.GetProfile(username);
         }
 
         public async Task<ProfileOverviewModel> GetProfile(string username)
         {
-            var profileOverviewDb = App.Database.Value.Table<UserViewModel>().Where(u => u.Username == username).FirstOrDefaultAsync().Result;
-            return new EatSmart.Services.ProfileGeneratorService()
-                    .GetProfile(profileOverviewDb.Username, profileOverviewDb.CodedProfile).Result;
+            var profileOverviewDb = App.Database.Value.Table<UserViewModel>()
+                .Where(u => u.Username == username).FirstOrDefaultAsync().Result;
+
+            return this.GetProfile(profileOverviewDb.Username, 
+                profileOverviewDb.CodedProfile, profileOverviewDb.LockSwipeType).Result;
         }
 
-        private async Task<ProfileOverviewModel> GetProfile(string username, string codedProfile)
+        private async Task<ProfileOverviewModel> GetProfile(string username, string codedProfile, LockSwipeType lockType)
         {
             var data = Regex.Split(codedProfile, @"<div class=""tbody2""");
 
             var profile = new ProfileOverviewModel();
             profile.Username = username;
+            profile.LockSwipeType = lockType;
             profile.RawCodedModel = codedProfile;
 
             profile.Description = GetDescription(data[1]);
@@ -66,7 +81,7 @@ namespace EatSmart.Services
             return profile;
         }
 
-        private async Task<ProfileOverviewModel> GetProfile(string username, bool isMale, int age, int weight, int height, int lifestyleIndex = 0)
+        private async Task<ProfileOverviewModel> GetProfile(string username, LockSwipeType lockType, bool isMale, int age, int weight, int height, int lifestyleIndex = 0)
         {
             using (var httpClient = new HttpClient())
             {
@@ -81,7 +96,7 @@ namespace EatSmart.Services
                 var response = httpClient.SendAsync(request).Result;
                 var stringResponse = await response.Content.ReadAsStringAsync();
 
-                return await this.GetProfile(username, stringResponse);
+                return await this.GetProfile(username, stringResponse, lockType);
             }
         }
 

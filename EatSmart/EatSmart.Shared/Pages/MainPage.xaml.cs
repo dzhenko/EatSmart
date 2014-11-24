@@ -18,6 +18,10 @@ using Windows.UI.Xaml.Navigation;
 using Parse;
 using Windows.UI.Popups;
 using Windows.Networking.Connectivity;
+using EatSmart.Services;
+using Windows.Devices.Sensors;
+using Windows.Devices.Geolocation;
+using System.Threading.Tasks;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -30,6 +34,8 @@ namespace EatSmart.Pages
     {
         private NavigationHelper navigationHelper;
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
+
+        private Accelerometer acc;
 
         public MainPage()
         {
@@ -56,6 +62,30 @@ namespace EatSmart.Pages
             {
                 new MessageDialog("Data is currently being populated .. please be patient").ShowAsync();
             }
+            
+            acc = Accelerometer.GetDefault();
+            acc.Shaken += Shaken;
+            acc.ReportInterval = 1;
+        }
+
+        async private void Shaken(object sender, AccelerometerShakenEventArgs args)
+        {
+            await new MessageDialog(this.GetLocation().Result).ShowAsync();
+        }
+
+        private async Task<string> GetLocation()
+        {
+            var geo = new Geolocator();
+            Geoposition pos = await geo.GetGeopositionAsync();
+            string text = string.Empty;
+            text += "Latitude: " + pos.Coordinate.Point.Position.Latitude.ToString() + "; ";
+            text += "Longitude: " + pos.Coordinate.Point.Position.Longitude.ToString();
+            text += " (Accuracy: " + pos.Coordinate.Accuracy.ToString()+")  ";
+
+            var compas = Compass.GetDefault();
+            var read = compas.GetCurrentReading();
+            text += string.Format("{0,5:0.00}", read.HeadingMagneticNorth);
+            return text;
         }
 
         /// <summary>
@@ -128,5 +158,39 @@ namespace EatSmart.Pages
         }
 
         #endregion
+
+
+
+        private void OnAllButtonClicked(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(AllFoodCategoriesPage));
+        }
+
+        private void OnRichButtonClicked(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(RichInContentFoodsPage));
+        }
+
+        private void OnHomeButtonClicked(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(MainPage));
+        }
+
+        private void OnProfileButtonClicked(object sender, RoutedEventArgs e)
+        {
+            if (new UserSessionPersister().IsUserLoggedIn().Result)
+            {
+                this.Frame.Navigate(typeof(ProfilePage));
+            }
+            else
+            {
+                this.Frame.Navigate(typeof(LoginPage));
+            }
+        }
+
+        private void OnBestFoodsButtonClicked(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(BestFoodsPage));
+        }
     }
 }

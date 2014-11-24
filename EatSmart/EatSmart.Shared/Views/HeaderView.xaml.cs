@@ -26,15 +26,15 @@ namespace EatSmart.Views
             this.DataContext = this;
         }
 
-        public String TitleText
+        public string TitleText
         {
-            get { return (String)GetValue(TitleTextProperty); }
+            get { return (string)GetValue(TitleTextProperty); }
             set { SetValue(TitleTextProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for TitleText.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TitleTextProperty =
-            DependencyProperty.Register("TitleText", typeof(String), typeof(HeaderView), 
+            DependencyProperty.Register("TitleText", typeof(string), typeof(HeaderView), 
             new PropertyMetadata(null));
     }
 }

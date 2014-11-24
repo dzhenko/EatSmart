@@ -31,8 +31,21 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
+            <Image Source="http://www.mrwallpaper.com/wallpapers/Leaf-Stone-Art.jpg" Stretch="UniformToFill" />
             
-            <Button Content="Log out" Click="OnLogOutButtonClick"/>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="6*" />
+                    <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="1">
+                    <Button Style="{StaticResource CenteredBigButton}"  Content="View Profile" Click="OnViewProfileButtonClick" />
+                    <Button Style="{StaticResource CenteredBigButton}"  Content="Update Profile" Click="OnUpdateProfileButtonClick" />
+                    <Button Style="{StaticResource CenteredBigButton}"  Content="Log out" Click="OnLogOutButtonClick" />
+                </StackPanel>
+            </Grid>
             
             
             <views:AppBarNavigationView Grid.Row="1"/>

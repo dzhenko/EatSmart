@@ -18,6 +18,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using EatSmart.Models;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -38,6 +39,22 @@ namespace EatSmart.Pages
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
+
+            this.DataContext = this;
+        }
+
+        public IEnumerable<string> AllOptions 
+        { 
+            get
+            {
+                var all = new List<string>();
+                foreach (LockSwipeType type in (LockSwipeType[]) Enum.GetValues(typeof(LockSwipeType)))
+                {
+                    all.Add(type.ToString());
+                }
+
+                return all;
+            }
         }
 
         /// <summary>
@@ -124,10 +141,12 @@ namespace EatSmart.Pages
             var height = (int)this.SliderHeight.Value;
             var isMale = this.RadioMale.IsChecked == null ? true : this.RadioMale.IsChecked.Value;
 
-            var success = new ProfileGeneratorService().CreateProfile(ParseUser.CurrentUser.Username, 
-                isMale, age, weight, height).Result;
+            var lockType = (LockSwipeType)this.ProfileLockMethod.SelectedIndex;
 
-            new MessageDialog("Profile successfuly created").ShowAsync();
+            var success = new ProfileGeneratorService().CreateProfile(new UserSessionPersister().GetCurrentUsername().Result,
+                lockType, isMale, age, weight, height).Result;
+
+            new MessageDialog("Profile successfuly saved").ShowAsync();
 
             this.Frame.Navigate(typeof(OwnProfilePage));
         }

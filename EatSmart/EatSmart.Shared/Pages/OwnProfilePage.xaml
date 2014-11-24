@@ -32,6 +32,47 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
+            <ListView Grid.Row="0" DataContext="{Binding ProfileOverviewModel}">
+                <StackPanel Name="General">
+                    <TextBlock FontSize="24" Text="{Binding Description}" TextWrapping="Wrap"/>
+
+                    <TextBlock FontSize="24"  Margin="0 40 0 0" Text="Body Mass Index:" TextWrapping="Wrap"/>
+                    <TextBlock FontSize="24"  Text="{Binding BodyMassIndex}" TextWrapping="Wrap"/>
+                    <TextBlock FontSize="24"  Text="{Binding BodyMassIndexDescription}" TextWrapping="Wrap"/>
+
+                    <TextBlock FontSize="24"  Margin="0 40 0 0" Text="Calories Burned:" TextWrapping="Wrap"/>
+                    <TextBlock FontSize="24" Text="{Binding CaloriesBurned}" TextWrapping="Wrap"/>
+                    <TextBlock FontSize="24" Text="{Binding CaloriesBurnedDescription}" TextWrapping="Wrap"/>
+                </StackPanel>
+
+                <Button Margin="0 40 0 0" Click="ShowHideGeneral" FontSize="30" HorizontalAlignment="Stretch" Content="More.." />
+                <ListBox ItemsSource="{Binding RecomendedMinimumsGeneral}" 
+                     Name="GeneralList"
+                     Visibility="Collapsed"
+                     Grid.Row="1" 
+                     FontSize="30" 
+                     Foreground="{StaticResource ApplicationForegroundThemeBrush}"
+                     Background="{StaticResource ApplicationPageBackgroundThemeBrush}"/>
+
+                <Button Margin="0 40 0 0" Click="ShowHideVitamins" FontSize="30" HorizontalAlignment="Stretch" Content="More.." />
+                <ListBox ItemsSource="{Binding RecomendedMinimumsVitamins}" 
+                     Name="VitaminsList"
+                     Visibility="Collapsed"
+                     Grid.Row="1" 
+                     FontSize="30" 
+                     Foreground="{StaticResource ApplicationForegroundThemeBrush}"
+                     Background="{StaticResource ApplicationPageBackgroundThemeBrush}"/>
+
+                <Button Margin="0 40 0 0" Click="ShowHideMinerals" FontSize="30" HorizontalAlignment="Stretch" Content="More.." />
+                <ListBox ItemsSource="{Binding RecomendedMinimumsMinerals}" 
+                     Name="MineralsList"
+                     Visibility="Collapsed"
+                     Grid.Row="1" 
+                     FontSize="30" 
+                     Foreground="{StaticResource ApplicationForegroundThemeBrush}"
+                     Background="{StaticResource ApplicationPageBackgroundThemeBrush}"/>
+            </ListView>
+            
             <views:AppBarNavigationView Grid.Row="1"/>
         </Grid>
     </Grid>

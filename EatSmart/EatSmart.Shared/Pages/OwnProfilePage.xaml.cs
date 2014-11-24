@@ -17,6 +17,9 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Parse;
 using EatSmart.Services;
+using EatSmart.Models;
+using EatSmart.ViewModels;
+using Windows.UI.Xaml;
 
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
@@ -32,12 +35,32 @@ namespace EatSmart.Pages
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
 
         public OwnProfilePage()
+            : this(new OwnProfilePageViewModel())
+        {
+
+        }
+
+        public OwnProfilePage(OwnProfilePageViewModel viewModel)
         {
             this.InitializeComponent();
 
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
+
+            this.OwnProfilePageViewModel = viewModel;
+        }
+
+        public OwnProfilePageViewModel OwnProfilePageViewModel
+        {
+            get
+            {
+                return this.DataContext as OwnProfilePageViewModel;
+            }
+            set
+            {
+                this.DataContext = value;
+            }
         }
 
         /// <summary>
@@ -116,5 +139,25 @@ namespace EatSmart.Pages
         }
 
         #endregion
+
+        private void ShowHideGeneral(object sender, RoutedEventArgs e)
+        {
+            (sender as Button).Content = this.GeneralList.Visibility == Visibility.Collapsed ? "Hide" : "Show";
+            this.GeneralList.Visibility = this.GeneralList.Visibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
+            this.General.Visibility = this.GeneralList.Visibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
+        }
+        private void ShowHideVitamins(object sender, RoutedEventArgs e)
+        {
+            (sender as Button).Content = this.VitaminsList.Visibility == Visibility.Collapsed ? "Hide" : "Show";
+            this.VitaminsList.Visibility = this.VitaminsList.Visibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
+            this.General.Visibility = this.VitaminsList.Visibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private void ShowHideMinerals(object sender, RoutedEventArgs e)
+        {
+            (sender as Button).Content = this.MineralsList.Visibility == Visibility.Collapsed ? "Hide" : "Show";
+            this.MineralsList.Visibility = this.MineralsList.Visibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
+            this.General.Visibility = this.MineralsList.Visibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
+        }
     }
 }
