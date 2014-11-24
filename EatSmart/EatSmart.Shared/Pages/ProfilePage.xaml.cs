@@ -1,11 +1,14 @@
 ﻿using EatSmart.Common;
+using EatSmart.Models;
 using EatSmart.ViewModels;
+using EatSmart.ViewModels.Basic;
 using Parse;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Graphics.Display;
@@ -31,13 +34,39 @@ namespace EatSmart.Pages
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
 
         public ProfilePage()
+            : this(new ProfilePageViewModel())
+        {
+        }
+
+        public ProfilePage(ProfilePageViewModel viewModel)
         {
             this.InitializeComponent();
 
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
+
+            if (ParseUser.CurrentUser == null)
+            {
+                this.Frame.Navigate(typeof(LoginPage));
+            }
+
+            this.ProfilePageViewModel = viewModel;
         }
+
+        public ProfilePageViewModel ProfilePageViewModel
+        {
+            get
+            {
+                return this.DataContext as ProfilePageViewModel;
+            }
+            set
+            {
+                this.DataContext = value;
+            }
+        }
+
+
 
         /// <summary>
         /// Gets the <see cref="NavigationHelper"/> associated with this <see cref="Page"/>.

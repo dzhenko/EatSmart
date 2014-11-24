@@ -4,6 +4,8 @@
 
     public class ProfileOverviewModel
     {
+        public string Username { get; set; }
+
         public string Description { get; set; }
 
         public double BodyMassIndex { get; set; }
@@ -19,5 +21,7 @@
         public IEnumerable<NutrientModel> RecomendedMinimumsVitamins { get; set; }
 
         public IEnumerable<NutrientModel> RecomendedMinimumsMinerals { get; set; }
+
+        public string RawCodedModel { get; set; }
     }
 }

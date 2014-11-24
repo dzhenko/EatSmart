@@ -23,6 +23,8 @@ using EatSmart.Models;
 using EatSmart.ViewModels.Basic;
 using SQLite;
 using System.Threading.Tasks;
+using Windows.UI.Popups;
+using Windows.Networking.Connectivity;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
 
@@ -45,11 +47,14 @@ namespace EatSmart
         {
             this.InitializeParse();
             var dbNeedsInitializing = this.PopulateBase().Result;
-            // animation
-
             this.InitializeComponent();
             this.Suspending += this.OnSuspending;
+
+            //Get the Internet connection profile
+            string connectionProfileInfo = string.Empty;
         }
+
+        public static bool DbNeedsInitializing = false;
 
         public static Lazy<SQLiteAsyncConnection> Database 
             = new Lazy<SQLiteAsyncConnection>(() => new SQLiteAsyncConnection("EatFreshDatabase"));
@@ -71,12 +76,16 @@ namespace EatSmart
             await conn.CreateTablesAsync<FoodCategoryViewModel,
                                         FoodCategoryItemViewModel,
                                         SuitableFoodCategoryViewModel,
-                                        SuitableFoodCategoryItemViewModel>();
+                                        SuitableFoodCategoryItemViewModel,
+                                        UserViewModel>();
 
             if (conn.Table<FoodCategoryItemViewModel>().CountAsync().Result > 0)
             {
+                DbNeedsInitializing = false;
                 return false;
             }
+
+            DbNeedsInitializing = true;
 
             var foodCategories = new ParseQuery<FoodCategory>().Limit(1000)
                 .FindAsync().Result.AsQueryable().Select(FoodCategoryViewModel.FromData).ToList();
@@ -96,15 +105,15 @@ namespace EatSmart
             var suitableFoodCategoryItems2 = new ParseQuery<SuitableFoodCategoryItem>().Limit(1000).Skip(500)
                 .FindAsync().Result.AsQueryable().Select(SuitableFoodCategoryItemViewModel.FromData).ToList();
 
-            await conn.InsertAllAsync(foodCategories);
+            conn.InsertAllAsync(foodCategories);
 
-            await conn.InsertAllAsync(foodCategoryItems1);
-            await conn.InsertAllAsync(foodCategoryItems2);
+            conn.InsertAllAsync(foodCategoryItems1);
+            conn.InsertAllAsync(foodCategoryItems2);
 
-            await conn.InsertAllAsync(suitableFoodCategories);
+            conn.InsertAllAsync(suitableFoodCategories);
 
-            await conn.InsertAllAsync(suitableFoodCategoryItems1);
-            await conn.InsertAllAsync(suitableFoodCategoryItems2);
+            conn.InsertAllAsync(suitableFoodCategoryItems1);
+            conn.InsertAllAsync(suitableFoodCategoryItems2).ContinueWith(x => DbNeedsInitializing = false);
 
             return true;
         }
@@ -166,7 +175,7 @@ namespace EatSmart
                 // configuring the new page by passing required information as a navigation
                 // parameter
 
-                var pageToNavigateTo = typeof(MainPage);
+                var pageToNavigateTo = typeof(NewProfilePage);
                 if (ParseUser.CurrentUser == null)
                 {
                     pageToNavigateTo = typeof(LoginPage);

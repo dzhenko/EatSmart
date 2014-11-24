@@ -1,0 +1,63 @@
+﻿<Page
+    x:Class="EatSmart.Pages.NewProfilePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:EatSmart.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="using:EatSmart.Views"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid x:Name="LayoutRoot">
+
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition/>
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Title Panel -->
+        <views:HeaderView Grid.Row="0" Margin="19,0,0,0" TitleText="New Profile"/>
+
+        <!--TODO: Content should be placed within the following grid-->
+        <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontSize="34" Text="Age" Height="40" />
+                    <TextBlock FontSize="34"  Margin="40 0 0 0" Text="{Binding ElementName=SliderAge, Path=Value}" Height="40" />
+                </StackPanel>
+                <Slider HorizontalAlignment="Left" Name="SliderAge" Minimum="6" Maximum="86" StepFrequency="1" Width="342" Height="41"/>
+
+                <StackPanel Orientation="Horizontal" Margin="0 40 0  0">
+                    <TextBlock FontSize="34" HorizontalAlignment="Center"  TextWrapping="Wrap" Text="Weight"  Height="40" Width="111"/>
+                    <TextBlock FontSize="34"  Margin="40 0 0 0" Text="{Binding ElementName=SliderWeight, Path=Value}"  Height="40"/>
+                </StackPanel>
+                <Slider Name="SliderWeight" Minimum="34" Maximum="124" StepFrequency="2" HorizontalAlignment="Left"  Width="342" Height="41"/>
+
+                <StackPanel Orientation="Horizontal" Margin="0 40 0  0">
+                    <TextBlock FontSize="34"  HorizontalAlignment="Center"  TextWrapping="Wrap" Text="Height"  Height="42" Width="111"/>
+                    <TextBlock FontSize="34" Margin="40 0 0 0"  Text="{Binding ElementName=SliderHeight, Path=Value}"  Height="42"/>
+                </StackPanel>
+                <Slider Name="SliderHeight" Minimum="130" Maximum="212" StepFrequency="2" HorizontalAlignment="Left"  Width="342" Height="41"/>
+
+                <StackPanel Orientation="Horizontal"  Margin="0 40 0  0">
+                    <RadioButton Name="RadioMale" GroupName="SexPicker"  Content="Male" HorizontalAlignment="Center"  Width="163"  Height="63"/>
+                    <RadioButton Name="RadioFemale" GroupName="SexPicker" Content="Female" HorizontalAlignment="Center" Width="98" Height="63"/>
+                </StackPanel>
+
+                <Button Content="Create" Margin="0 0 40 0 " HorizontalAlignment="Center"  Height="67" Width="341" Click="CreateButtonClick" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>

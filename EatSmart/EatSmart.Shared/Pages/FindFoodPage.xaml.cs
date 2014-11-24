@@ -16,8 +16,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Parse;
-using Windows.UI.Popups;
-using Windows.Networking.Connectivity;
+using EatSmart.Services;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -26,36 +25,18 @@ namespace EatSmart.Pages
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class FindFoodPage : Page
     {
         private NavigationHelper navigationHelper;
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
 
-        public MainPage()
+        public FindFoodPage()
         {
             this.InitializeComponent();
 
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
-
-            try
-            {
-                var InternetConnectionProfile = NetworkInformation.GetInternetConnectionProfile();
-
-                if (InternetConnectionProfile == null)
-                {
-                    new MessageDialog("You dont have any internet connection").ShowAsync();
-                }
-            }
-            catch (Exception ex)
-            {
-            }
-
-            if (App.DbNeedsInitializing)
-            {
-                new MessageDialog("Data is currently being populated .. please be patient").ShowAsync();
-            }
         }
 
         /// <summary>
@@ -119,6 +100,12 @@ namespace EatSmart.Pages
         /// handlers that cannot cancel the navigation request.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            if (ParseUser.CurrentUser == null
+                || !(new ProfileGeneratorService().DoesUserProfileExist(ParseUser.CurrentUser.Username).Result))
+            {
+                this.Frame.Navigate(typeof(NewProfilePage));
+            }
+
             this.navigationHelper.OnNavigatedTo(e);
         }
 

@@ -28,12 +28,22 @@
         <!--TODO: Content should be placed within the following grid-->
         <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
+            <ComboBox Name="ComboBoxSelectedSuitableFood" 
+                      ItemsSource="{Binding Categories}" 
+                      SelectedItem="{Binding SelectedOption, Mode=TwoWay}" 
+                      Grid.Row="0"/>
 
-            <views:AppBarNavigationView Grid.Row="1"/>
+            <ListBox ItemsSource="{Binding Foods}"
+                     ItemTemplate="{StaticResource ImageRichInContentOverlayItemTemplate}"
+                     Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
+                     Grid.Row="1"/>
+
+            <views:AppBarNavigationView Grid.Row="2"/>
         </Grid>
     </Grid>
 </Page>

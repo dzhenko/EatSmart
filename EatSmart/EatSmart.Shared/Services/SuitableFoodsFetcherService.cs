@@ -28,7 +28,7 @@ namespace EatSmart.Services
         public IEnumerable<SuitableFoodCategoryItemViewModel> GetFoodsInCategory(string category)
         {
             var items = App.Database.Value.Table<SuitableFoodCategoryItemViewModel>()
-                .Where(i => i.CategoryName == category).ToListAsync().Result;
+                .Where(i => i.CategoryName == category).OrderBy(i => i.Order).ToListAsync().Result;
 
             return items;
         }

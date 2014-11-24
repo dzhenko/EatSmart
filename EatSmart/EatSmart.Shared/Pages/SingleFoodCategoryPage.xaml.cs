@@ -132,18 +132,24 @@ namespace EatSmart.Pages
 
         private void OnGridViewItemClick(object sender, TappedRoutedEventArgs e)
         {
-            Grid parent = null;
-            var el = e.OriginalSource as Image;
-            if (el == null)
+            try
             {
-                parent =  (e.OriginalSource as TextBlock).Parent as Grid;
-            }
-            else
-            {
-                parent = el.Parent as Grid;
-            }
+                Grid parent = null;
+                var el = e.OriginalSource as Image;
+                if (el == null)
+                {
+                    parent = (e.OriginalSource as TextBlock).Parent as Grid;
+                }
+                else
+                {
+                    parent = el.Parent as Grid;
+                }
 
-            var textBox = (new MessageDialog((parent.Children.Last() as TextBlock).Text).ShowAsync());
+                var textBox = (new MessageDialog((parent.Children.Last() as TextBlock).Text).ShowAsync());
+            }
+            catch (Exception)
+            {
+            }
         }
     }
 }

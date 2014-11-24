@@ -1,4 +1,5 @@
 ﻿using EatSmart.Common;
+using EatSmart.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -29,12 +30,32 @@ namespace EatSmart.Pages
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
 
         public RichInContentFoodsPage()
+            : this(new RichInContentFoodsPageViewModel())
+        {
+
+        }
+
+        public RichInContentFoodsPage(RichInContentFoodsPageViewModel viewModel)
         {
             this.InitializeComponent();
 
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
+
+            this.RichInContentFoodsPageViewModel = viewModel;
+        }
+
+        public RichInContentFoodsPageViewModel RichInContentFoodsPageViewModel
+        {
+            get
+            {
+                return this.DataContext as RichInContentFoodsPageViewModel;
+            }
+            set
+            {
+                this.DataContext = value;
+            }
         }
 
         /// <summary>

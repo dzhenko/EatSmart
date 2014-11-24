@@ -24,7 +24,7 @@
         </Grid.RowDefinitions>
 
         <!-- Title Panel -->
-        <views:HeaderView Grid.Row="0" Margin="19,0,0,0" TitleText="All food categories"/>
+        <views:HeaderView Grid.Row="0" Margin="19,0,0,0" TitleText="All categories"/>
 
         <!--TODO: Content should be placed within the following grid-->
         <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
@@ -37,7 +37,7 @@
                       ItemsSource="{Binding Categories}"
                       Tapped="OnGridViewCategoryItemClick">
                 <ItemsPanelTemplate>
-                    <ItemsWrapGrid MaximumRowsOrColumns="2"/>
+                    <ItemsWrapGrid MaximumRowsOrColumns="2" />
                 </ItemsPanelTemplate>
             </GridView>
 

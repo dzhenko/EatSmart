@@ -35,8 +35,18 @@
             </StackPanel>
         </DataTemplate>
 
+        <DataTemplate x:Key="ImageRichInContentOverlayItemTemplate">
+            <StackPanel Margin="10 10 10 10" Orientation="Horizontal">
+                <Image Width="100" Height="100" Source="{Binding Image}" Stretch="UniformToFill"/>
+                <StackPanel>
+                    <TextBlock Text="{Binding Name}" Foreground="{StaticResource ApplicationForegroundThemeBrush}" FontSize="26"/>
+                    <TextBlock Text="{Binding Amount}" Foreground="{StaticResource ApplicationForegroundThemeBrush}"  FontSize="26"/>
+                </StackPanel>
+            </StackPanel>
+        </DataTemplate>
+
         <DataTemplate x:Key="ImageOverlayItemTemplate">
-            <Grid Width="200">
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="4*"/>
                     <ColumnDefinition Width="4*"/>

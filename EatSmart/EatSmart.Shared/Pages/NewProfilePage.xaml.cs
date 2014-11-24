@@ -1,4 +1,6 @@
 ﻿using EatSmart.Common;
+using EatSmart.Services;
+using Parse;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,6 +9,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Graphics.Display;
+using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -15,9 +18,6 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Parse;
-using Windows.UI.Popups;
-using Windows.Networking.Connectivity;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -26,36 +26,18 @@ namespace EatSmart.Pages
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class NewProfilePage : Page
     {
         private NavigationHelper navigationHelper;
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
 
-        public MainPage()
+        public NewProfilePage()
         {
             this.InitializeComponent();
 
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
-
-            try
-            {
-                var InternetConnectionProfile = NetworkInformation.GetInternetConnectionProfile();
-
-                if (InternetConnectionProfile == null)
-                {
-                    new MessageDialog("You dont have any internet connection").ShowAsync();
-                }
-            }
-            catch (Exception ex)
-            {
-            }
-
-            if (App.DbNeedsInitializing)
-            {
-                new MessageDialog("Data is currently being populated .. please be patient").ShowAsync();
-            }
         }
 
         /// <summary>
@@ -119,6 +101,12 @@ namespace EatSmart.Pages
         /// handlers that cannot cancel the navigation request.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            if (ParseUser.CurrentUser == null
+                   || !(new ProfileGeneratorService().DoesUserProfileExist(ParseUser.CurrentUser.Username).Result))
+            {
+                this.Frame.Navigate(typeof(NewProfilePage));
+            }
+
             this.navigationHelper.OnNavigatedTo(e);
         }
 
@@ -128,5 +116,20 @@ namespace EatSmart.Pages
         }
 
         #endregion
+
+        private void CreateButtonClick(object sender, RoutedEventArgs e)
+        {
+            var age = (int)this.SliderAge.Value;
+            var weight = (int)this.SliderWeight.Value;
+            var height = (int)this.SliderHeight.Value;
+            var isMale = this.RadioMale.IsChecked == null ? true : this.RadioMale.IsChecked.Value;
+
+            var success = new ProfileGeneratorService().CreateProfile(ParseUser.CurrentUser.Username, 
+                isMale, age, weight, height).Result;
+
+            new MessageDialog("Profile successfuly created").ShowAsync();
+
+            this.Frame.Navigate(typeof(OwnProfilePage));
+        }
     }
 }

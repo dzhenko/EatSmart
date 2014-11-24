@@ -20,7 +20,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <!-- Title Panel -->
@@ -28,9 +27,16 @@
 
         <!--TODO: Content should be placed within the following grid-->
         <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            
             <Button Content="Log out" Click="OnLogOutButtonClick"/>
+            
+            
+            <views:AppBarNavigationView Grid.Row="1"/>
         </Grid>
 
-        <views:AppBarNavigationView Grid.Row="2"/>
     </Grid>
 </Page>
