@@ -125,7 +125,7 @@ namespace EatSmart.Pages
         {
             this.Frame.Navigate(typeof(NewProfilePage));
         }
-
+        
         private void OnViewProfileButtonClick(object sender, RoutedEventArgs e)
         {
             try
@@ -137,6 +137,16 @@ namespace EatSmart.Pages
             {
                 this.Frame.Navigate(typeof(NewProfilePage));
             }
+        }
+
+        private void OnGetFoodButtonClick(object sender, RoutedEventArgs e) 
+        {
+            this.Frame.Navigate(typeof(FindFoodPage));
+        }
+
+        private void OnGetDietButtonClick(object sender, RoutedEventArgs e) 
+        {
+            this.Frame.Navigate(typeof(FindDietPage));
         }
     }
 }

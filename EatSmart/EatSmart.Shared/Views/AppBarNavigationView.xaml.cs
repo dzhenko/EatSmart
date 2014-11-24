@@ -61,9 +61,7 @@ namespace EatSmart.Views
 
         private void InnerNavigateToPage(object src, Type page)
         {
-            // dirty dirty hack ... but fast :)
-            ((((((src as AppBarButton).Parent as StackPanel).Parent as AppBarNavigationView)
-                .Parent as Grid).Parent as Grid).Parent as Page).Frame.Navigate(page);
+            (Window.Current.Content as Frame).Navigate(page);
         }
     }
 }

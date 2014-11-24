@@ -41,6 +41,8 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="1">
+                    <Button Style="{StaticResource CenteredBigButton}"  Content="Best Food" Click="OnGetFoodButtonClick" />
+                    <Button Style="{StaticResource CenteredBigButton}"  Content="Find Diet" Click="OnGetDietButtonClick" />
                     <Button Style="{StaticResource CenteredBigButton}"  Content="View Profile" Click="OnViewProfileButtonClick" />
                     <Button Style="{StaticResource CenteredBigButton}"  Content="Update Profile" Click="OnUpdateProfileButtonClick" />
                     <Button Style="{StaticResource CenteredBigButton}"  Content="Log out" Click="OnLogOutButtonClick" />

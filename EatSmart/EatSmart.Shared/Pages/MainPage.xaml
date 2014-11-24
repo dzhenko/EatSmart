@@ -40,12 +40,13 @@
                     <ColumnDefinition Width="6*" />
                     <ColumnDefinition Width="2*" />
                 </Grid.ColumnDefinitions>
-                
+
                 <StackPanel Grid.Column="1">
+                    <Button Style="{StaticResource CenteredBigButton}" Click="OnProfileButtonClicked" Content="Profile" />
                     <Button Style="{StaticResource CenteredBigButton}" Click= "OnAllButtonClicked" Content="All Foods"   />
                     <Button Style="{StaticResource CenteredBigButton}" Click= "OnRichButtonClicked" Content="Rich in content" />
-                    <Button Style="{StaticResource CenteredBigButton}" Click= "OnBestFoodsButtonClicked" Content="Best Foods"        />
-                    <Button Style="{StaticResource CenteredBigButton}" Click="OnProfileButtonClicked" Content="Profile"        />
+                    <Button Style="{StaticResource CenteredBigButton}" Click= "OnBestFoodsButtonClicked" Content="Best Foods" />
+                    <Button Style="{StaticResource CenteredBigButton}" Click= "OnInfoButtonClicked" Content="Info" />
                 </StackPanel>
             </Grid>
 

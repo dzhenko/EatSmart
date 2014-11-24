@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Parse;
 using EatSmart.Services;
+using EatSmart.ViewModels;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -31,12 +32,32 @@ namespace EatSmart.Pages
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
 
         public FindFoodPage()
+            : this(new FindFoodPageViewModel())
+        {
+
+        }
+
+        public FindFoodPage(FindFoodPageViewModel viewModel)
         {
             this.InitializeComponent();
 
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
+
+            this.FindFoodPageViewModel = viewModel;
+        }
+
+        public FindFoodPageViewModel FindFoodPageViewModel
+        {
+            get
+            {
+                return this.DataContext as FindFoodPageViewModel;
+            }
+            set
+            {
+                this.DataContext = value;
+            }
         }
 
         /// <summary>

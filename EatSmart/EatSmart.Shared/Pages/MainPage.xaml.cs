@@ -70,17 +70,23 @@ namespace EatSmart.Pages
 
         async private void Shaken(object sender, AccelerometerShakenEventArgs args)
         {
-            await new MessageDialog(this.GetLocation().Result).ShowAsync();
+            var res = await this.GetLocation();
+            await new MessageDialog(res).ShowAsync();
         }
 
         private async Task<string> GetLocation()
         {
-            var geo = new Geolocator();
-            Geoposition pos = await geo.GetGeopositionAsync();
             string text = string.Empty;
-            text += "Latitude: " + pos.Coordinate.Point.Position.Latitude.ToString() + "; ";
-            text += "Longitude: " + pos.Coordinate.Point.Position.Longitude.ToString();
-            text += " (Accuracy: " + pos.Coordinate.Accuracy.ToString()+")  ";
+
+            //var geo = new Geolocator();
+            //Geoposition pos = await geo.GetGeopositionAsync();
+            //text += "Latitude: " + pos.Coordinate.Point.Position.Latitude.ToString() + "; ";
+            //text += "Longitude: " + pos.Coordinate.Point.Position.Longitude.ToString();
+            //text += " (Accuracy: " + pos.Coordinate.Accuracy.ToString()+")  ";
+
+            text += "Latitude: 32.42; ";
+            text += "Longitude: 31.33";
+            text += " (Accuracy: 15m)  "; 
 
             var compas = Compass.GetDefault();
             var read = compas.GetCurrentReading();
@@ -191,6 +197,11 @@ namespace EatSmart.Pages
         private void OnBestFoodsButtonClicked(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(BestFoodsPage));
+        }
+
+        private void OnInfoButtonClicked(object sender, RoutedEventArgs e)
+        {
+            this.Shaken(null, null);
         }
     }
 }

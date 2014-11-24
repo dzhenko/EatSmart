@@ -31,6 +31,12 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
+            <ListView>
+                <TextBlock FontSize="24"  Margin="0 40 0 0" Text="The most suitable diet for you:" TextWrapping="Wrap"/>
+
+                <TextBlock FontSize="24"  Margin="0 40 0 0" Text="{Binding Diet}" TextWrapping="Wrap"/>
+            </ListView>
+            
 
             <views:AppBarNavigationView Grid.Row="1"/>
         </Grid>
